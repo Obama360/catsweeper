@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="de" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="style.css">
+    <script src="sweeper.js" charset="utf-8"></script>
+    <title>Sweeperz</title>
+  </head>
+  <body>
+    <h1>Mine Sweeper Kolonibus</h1>
+    <h3>(Goofy ahh)</h3>
+
+    <form class="game-settings" action="javascript:BuildField()" method="post">
+      <input type="number" name="columns" value="12" max="128" min="4">
+      <input type="number" name="rows" value="12" max="128" min="4">
+      <input type="submit" name="submit" value="Spiel starten">
+    </form>
+
+    <div id="game-field">
+      
+    </div>
+  </body>
+</html>

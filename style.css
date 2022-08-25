@@ -1,0 +1,25 @@
+* {
+  font-family: arial, sans-serif;
+}
+
+html {
+  background-color: lightyellow;
+}
+
+body {
+  background-color: lightgray;
+  width: 80%;
+  max-width: 800px;
+  margin: 20px auto 20px auto;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+#grid {
+  display: grid;
+  background-color: red;
+}
+
+.block {
+  width: 100%;
+}
