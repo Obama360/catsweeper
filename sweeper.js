@@ -1,4 +1,9 @@
 function BuildField() {
+  //clear old game if exists
+  oldGame = document.getElementById("grid");
+  if (oldGame != undefined)
+    oldGame.remove();
+
   //getting input
   var cols = document.getElementsByName("columns")[0].value;
   var rows = document.getElementsByName("rows")[0].value;
@@ -18,10 +23,6 @@ function BuildField() {
   block.setAttribute("alt", "Feld");
   block.setAttribute("class", "block");
 
-  //calculate amount of mines
-  var cMines = parseInt((cols * rows) / 4.85);
-  alert("Amount Mines: " + cMines);
-
   //build the grid out of blocks
   for(x=0; x<rows; x++) {
     for(y=0; y<cols; y++) {
@@ -32,22 +33,41 @@ function BuildField() {
   }
 
   //choose random blocks to be mines
-  for(i=0; i<cols*rows; i++) {
-    var mineCol = Math.floor(Math.random() * cols+1);
-    var mineRow = Math.floor(Math.random() * rows+1);
+  var mines = [];
+  for(i=0; i<parseInt((cols * rows) / 4.85); i++) {
+    
+    //create random position for mine until its unique
+    do {
+      var mineCol = Math.floor(Math.random() * cols);
+      var mineRow = Math.floor(Math.random() * rows);
+    } while (CheckDouble(mineCol, mineRow, mines) == false);
 
-    selectedBlock = getBlock(mineCol, mineRow);
-    selectedBlock.setAttribute("src", "https://esraa-alaarag.github.io/Minesweeper/images/bomb.png");
-    grid.appendChild(selectedBlock);
+    //store position in array
+    mines.push({col: mineCol, row: mineRow});
+
+    //set mine image for mines (for debug, will be removed)
+    selectedBlock = GetBlock(mines[i].col, mines[i].row);
+    selectedBlock.src = "https://esraa-alaarag.github.io/Minesweeper/images/bomb.png";
   }
 }
 
+//function to check for double values
+function CheckDouble(col, row, array) {
+  for(i=0; i<array.length; i++) {
+    if (array[i].col == col && array[i].row == row) {
+      //alert("double value at: col=" + array[i].col + ", row=" + array[i].row);
+      return false;
+    }
+  }
+  return true;
+}
+
 //function for getting element by values
-function getBlock(col, row)
-{
-    var allInputs = document.getElementsByTagName("col");
-    var results = [];
-    for(var x=0;x<allInputs.length;x++)
-        if(allInputs[x].col == col && allInputs[x].row == row)
-            return allInputs[x];
+function GetBlock(col, row) {
+    var allInputs = document.getElementsByTagName("img");
+    for(var x=0;x<allInputs.length;x++) {
+      if(allInputs[x].getAttribute("col") == col && allInputs[x].getAttribute("row") == row) {
+        return allInputs[x];
+      }
+    }
 }
