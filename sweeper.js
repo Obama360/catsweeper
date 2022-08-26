@@ -36,6 +36,18 @@ function BuildField() {
     var mineCol = Math.floor(Math.random() * cols+1);
     var mineRow = Math.floor(Math.random() * rows+1);
 
-    
+    selectedBlock = getBlock(mineCol, mineRow);
+    selectedBlock.setAttribute("src", "https://esraa-alaarag.github.io/Minesweeper/images/bomb.png");
+    grid.appendChild(selectedBlock);
   }
+}
+
+//function for getting element by values
+function getBlock(col, row)
+{
+    var allInputs = document.getElementsByTagName("col");
+    var results = [];
+    for(var x=0;x<allInputs.length;x++)
+        if(allInputs[x].col == col && allInputs[x].row == row)
+            return allInputs[x];
 }
