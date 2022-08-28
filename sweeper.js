@@ -18,10 +18,14 @@ function BuildField() {
   field.appendChild(grid);
 
   //define block element
-  block = document.createElement("img");
-  block.setAttribute("src", "https://placekitten.com/128/128");
-  block.setAttribute("alt", "Feld");
+  block = document.createElement("div");
   block.setAttribute("class", "block");
+
+  //define block-image element
+  blockImage = document.createElement("img");
+  blockImage.setAttribute("src", "tile_blank.png");
+  blockImage.setAttribute("alt", "Feld");
+  blockImage.setAttribute("class", "block-image");
 
   //build the grid out of blocks
   for(x=0; x<rows; x++) {
@@ -32,10 +36,16 @@ function BuildField() {
     }
   }
 
+  //append images to block <div>
+  blocks = document.getElementsByClassName("block");
+  for(i=0;i<blocks.length;i++) {
+    blocks[i].appendChild(blockImage.cloneNode());
+  }
+
   //choose random blocks to be mines
   var mines = [];
   for(i=0; i<parseInt((cols * rows) / 4.85); i++) {
-    
+
     //create random position for mine until its unique
     do {
       var mineCol = Math.floor(Math.random() * cols);
@@ -47,7 +57,7 @@ function BuildField() {
 
     //set mine image for mines (for debug, will be removed)
     selectedBlock = GetBlock(mines[i].col, mines[i].row);
-    selectedBlock.src = "https://esraa-alaarag.github.io/Minesweeper/images/bomb.png";
+    selectedBlock.childNodes[0].src = "tile_mine.png";
   }
 }
 
@@ -55,7 +65,6 @@ function BuildField() {
 function CheckDouble(col, row, array) {
   for(i=0; i<array.length; i++) {
     if (array[i].col == col && array[i].row == row) {
-      //alert("double value at: col=" + array[i].col + ", row=" + array[i].row);
       return false;
     }
   }
@@ -64,7 +73,7 @@ function CheckDouble(col, row, array) {
 
 //function for getting element by values
 function GetBlock(col, row) {
-    var allInputs = document.getElementsByTagName("img");
+    var allInputs = document.getElementsByClassName("block");
     for(var x=0;x<allInputs.length;x++) {
       if(allInputs[x].getAttribute("col") == col && allInputs[x].getAttribute("row") == row) {
         return allInputs[x];
