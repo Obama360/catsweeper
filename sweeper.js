@@ -110,8 +110,11 @@ function ShowMines() {
 }
 
 //Check neighbour mines
-function CheckNeighbours(col, row) {
+function CheckNeighbours(inCol, inRow) {
   var neighbours = 0;
+
+  var col = parseInt(inCol);
+  var row = parseInt(inRow);
 
   //top
   if (CheckMine(col, row+1)) {
