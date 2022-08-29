@@ -1,5 +1,12 @@
+//define global variables
+var mines = [];
+var gameOver;
+
 function BuildField() {
+  gameOver = false;
+
   //clear old game if exists
+  mines = [];
   oldGame = document.getElementById("grid");
   if (oldGame != undefined)
     oldGame.remove();
@@ -36,39 +43,38 @@ function BuildField() {
     }
   }
 
-  //append images to block <div>
+  //append images and eventListener to block <div>
   blocks = document.getElementsByClassName("block");
   for(i=0;i<blocks.length;i++) {
     blocks[i].appendChild(blockImage.cloneNode());
+
+    blocks[i].addEventListener("click", function(e){
+      HandleBlock(e.currentTarget);
+    });
   }
 
   //choose random blocks to be mines
-  var mines = [];
   for(i=0; i<parseInt((cols * rows) / 4.85); i++) {
 
     //create random position for mine until its unique
     do {
       var mineCol = Math.floor(Math.random() * cols);
       var mineRow = Math.floor(Math.random() * rows);
-    } while (CheckDouble(mineCol, mineRow, mines) == false);
+    } while (CheckMine(mineCol, mineRow));
 
     //store position in array
     mines.push({col: mineCol, row: mineRow});
-
-    //set mine image for mines (for debug, will be removed)
-    selectedBlock = GetBlock(mines[i].col, mines[i].row);
-    selectedBlock.childNodes[0].src = "tile_mine.png";
   }
 }
 
 //function to check for double values
-function CheckDouble(col, row, array) {
-  for(i=0; i<array.length; i++) {
-    if (array[i].col == col && array[i].row == row) {
-      return false;
+function CheckMine(col, row) {
+  for(i=0; i<mines.length; i++) {
+    if (mines[i].col == col && mines[i].row == row) {
+      return true;
     }
   }
-  return true;
+  return false;
 }
 
 //function for getting element by values
@@ -79,4 +85,87 @@ function GetBlock(col, row) {
         return allInputs[x];
       }
     }
+}
+
+//Handle click on block
+function HandleBlock(element) {
+  if (!gameOver) {
+    if (CheckMine(element.getAttribute("col"), element.getAttribute("row"))) {
+      element.childNodes[0].className += " triggered-mine";
+      gameOver = true;
+      ShowMines();
+    } else {
+      element.childNodes[0].src = "tile_pressed.png";
+      element.appendChild(CreateNeighboursNumber(CheckNeighbours(element.getAttribute("col"), element.getAttribute("row"))));
+      //alert("Neighbour Bombs: " + CheckNeighbours());
+    }
+  }
+}
+
+//Show all mines
+function ShowMines() {
+  for(i=0;i<mines.length;i++) {
+    GetBlock(mines[i].col, mines[i].row).childNodes[0].src = "tile_mine.png";
+  }
+}
+
+//Check neighbour mines
+function CheckNeighbours(col, row) {
+  var neighbours = 0;
+
+  //top
+  if (CheckMine(col, row+1)) {
+    neighbours++;
+  }
+
+  //top-right
+  if (CheckMine(col+1, row+1)) {
+    neighbours++;
+  }
+
+  //right
+  if (CheckMine(col+1, row)) {
+    neighbours++;
+  }
+
+  //bottom-right
+  if (CheckMine(col+1, row-1)) {
+    neighbours++;
+  }
+
+  //bottom
+  if (CheckMine(col, row-1)) {
+    neighbours++;
+  }
+
+  //bottom-left
+  if (CheckMine(col-1, row-1)) {
+    neighbours++;
+  }
+
+  //left
+  if (CheckMine(col-1, row)) {
+    neighbours++;
+  }
+
+  //top-left
+  if (CheckMine(col-1, row+1)) {
+    neighbours++;
+  }
+
+  return neighbours;
+}
+
+//Create Neighbour-Number
+function CreateNeighboursNumber(neighbours) {
+  element = document.createElement("span");
+  element.setAttribute("class", "neighbour-text");
+  element.innerHTML = neighbours;
+
+  return element;
+}
+
+//Disable context menu for game-field
+window.onload = function() {
+  document.getElementById("game-field").addEventListener("contextmenu", e => e.preventDefault());
 }

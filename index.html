@@ -6,7 +6,7 @@
     <script src="sweeper.js" charset="utf-8"></script>
     <title>Sweeperz</title>
   </head>
-  <body>
+  <body ondragstart="return false;" ondrop="return false;">
     <h1>Mine Sweeper Kolonibus</h1>
     <h3>(Goofy ahh)</h3>
 
@@ -15,8 +15,8 @@
       <input type="number" name="rows" value="12" max="128" min="4">
       <input type="submit" name="submit" value="Spiel starten">
     </form> <hr>
-    
-    <div id="game-field">
+
+    <div id="game-field" onload="DisableContext">
 
     </div>
   </body>
