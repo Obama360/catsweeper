@@ -30,7 +30,7 @@ function BuildField() {
 
   //define block-image element
   blockImage = document.createElement("img");
-  blockImage.setAttribute("src", "tile_blank.png");
+  blockImage.setAttribute("src", "tiles/tile_blank.png");
   blockImage.setAttribute("alt", "Feld");
   blockImage.setAttribute("class", "block-image");
 
@@ -95,9 +95,7 @@ function HandleBlock(element) {
       gameOver = true;
       ShowMines();
     } else {
-      element.childNodes[0].src = "tile_pressed.png";
-      element.appendChild(CreateNeighboursNumber(CheckNeighbours(element.getAttribute("col"), element.getAttribute("row"))));
-      //alert("Neighbour Bombs: " + CheckNeighbours());
+      element.childNodes[0].src = "tiles/numbers/tile_"+CheckNeighbours(element.getAttribute("col"), element.getAttribute("row"))+".png";
     }
   }
 }
@@ -105,7 +103,7 @@ function HandleBlock(element) {
 //Show all mines
 function ShowMines() {
   for(i=0;i<mines.length;i++) {
-    GetBlock(mines[i].col, mines[i].row).childNodes[0].src = "tile_mine.png";
+    GetBlock(mines[i].col, mines[i].row).childNodes[0].src = "tiles/tile_mine.png";
   }
 }
 
@@ -157,15 +155,6 @@ function CheckNeighbours(inCol, inRow) {
   }
 
   return neighbours;
-}
-
-//Create Neighbour-Number
-function CreateNeighboursNumber(neighbours) {
-  element = document.createElement("span");
-  element.setAttribute("class", "neighbour-text");
-  element.innerHTML = neighbours;
-
-  return element;
 }
 
 //Disable context menu for game-field
