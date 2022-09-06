@@ -113,47 +113,13 @@ function CheckNeighbours(inCol, inRow) {
 
   var col = parseInt(inCol);
   var row = parseInt(inRow);
+  var neighbourFields = [{col: col, row: row+1}, {col: col+1, row: row+1}, {col: col+1, row: row}, {col: col+1, row: row-1}, {col: col, row: row-1}, {col: col-1, row: row-1}, {col: col-1, row: row}, {col: col-1, row: row+1}];
 
-  //top
-  if (CheckMine(col, row+1)) {
-    neighbours++;
+  for(j=0; j<neighbourFields.length; j++) {
+    if (CheckMine(neighbourFields[j].col, neighbourFields[j].row)) {
+      neighbours++;
+    }
   }
-
-  //top-right
-  if (CheckMine(col+1, row+1)) {
-    neighbours++;
-  }
-
-  //right
-  if (CheckMine(col+1, row)) {
-    neighbours++;
-  }
-
-  //bottom-right
-  if (CheckMine(col+1, row-1)) {
-    neighbours++;
-  }
-
-  //bottom
-  if (CheckMine(col, row-1)) {
-    neighbours++;
-  }
-
-  //bottom-left
-  if (CheckMine(col-1, row-1)) {
-    neighbours++;
-  }
-
-  //left
-  if (CheckMine(col-1, row)) {
-    neighbours++;
-  }
-
-  //top-left
-  if (CheckMine(col-1, row+1)) {
-    neighbours++;
-  }
-
   return neighbours;
 }
 
