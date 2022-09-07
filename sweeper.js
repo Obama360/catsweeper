@@ -51,6 +51,10 @@ function BuildField() {
     blocks[i].addEventListener("click", function(e){
       HandleBlock(e.currentTarget);
     });
+
+    blocks[i].addEventListener("contextmenu", function(e){
+      FlagBlock(e.currentTarget);
+    });
   }
 
   //choose random blocks to be mines
@@ -97,6 +101,12 @@ function HandleBlock(element) {
     } else {
       element.childNodes[0].src = "tiles/numbers/tile_"+CheckNeighbours(element.getAttribute("col"), element.getAttribute("row"))+".png";
     }
+  }
+}
+
+function FlagBlock(element) {
+  if (!gameOver) {
+    alert("Righclick on "+element.getAttribute("col")+ ", "+element.getAttribute("row"));
   }
 }
 
