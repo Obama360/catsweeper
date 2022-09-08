@@ -71,7 +71,7 @@ function BuildField() {
   }
 }
 
-//function to check for double values
+//function to check for mines
 function CheckMine(col, row) {
   for(i=0; i<mines.length; i++) {
     if (mines[i].col == col && mines[i].row == row) {
