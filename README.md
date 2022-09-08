@@ -9,7 +9,7 @@ This repository is under development **There is no stable/working version yet**
 TODO:
 * Enable Blocks to be flagged
 * Make the game winnable
-* Automatic unvovering of areas eith no mines near
+* Automatic unvovering of areas
 * Time Counter
 * Highscore System
 * Overall UI/UX improvements
