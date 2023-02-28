@@ -1,6 +1,7 @@
 //define global variables
 var mines = [];
 var gameOver;
+var flaggedMines = [];
 
 function BuildField() {
   gameOver = false;
@@ -104,9 +105,23 @@ function HandleBlock(element) {
   }
 }
 
+function CheckFlagged(element) {
+  for(var i = 0; i<flaggedMines.length;i++) {
+    if(flaggedMines[i].getAttribute("col") == element.getAttribute("col") && flaggedMines[i].getAttribute("row") == element.getAttribute("row")) {
+      return true;
+    }
+  }
+}
+
 function FlagBlock(element) {
   if (!gameOver) {
-    alert("Righclick on "+element.getAttribute("col")+ ", "+element.getAttribute("row"));
+    //check if block is flagged or not
+    if(!CheckFlagged(element)){
+      alert("block is not flagged");
+      flaggedMines.push(element);
+    } else {
+      alert("block is flagged!");
+    }
   }
 }
 
